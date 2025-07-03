@@ -70,3 +70,28 @@ h1 {
     border-radius: 8px;
     color: #555;
 }
+.login-box {
+  max-width: 400px;
+  margin: 50px auto;
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  text-align: center;
+}
+.login-box input {
+  display: block;
+  width: 100%;
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+.login-box button {
+  padding: 10px 20px;
+  background: #cc3366;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
