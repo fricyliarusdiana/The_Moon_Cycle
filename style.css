@@ -1,0 +1,72 @@
+* {
+    box-sizing: border-box;
+}
+body {
+    font-family: "Segoe UI", sans-serif;
+    background: linear-gradient(to bottom, #ffe3ec, #fef6f9);
+    margin: 0;
+    padding: 20px;
+    min-height: 100vh;
+    color: #333;
+}
+.logo {
+    width: 80px;
+    display: block;
+    margin: 0 auto 10px auto;
+}
+h1 {
+    text-align: center;
+    color: #cc3366;
+    margin-bottom: 10px;
+}
+.nav {
+    text-align: center;
+    margin: 20px 0;
+}
+.nav button {
+    padding: 8px 14px;
+    background: #cc3366;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+.nav span {
+    margin: 0 15px;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+.calendar {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+    max-width: 600px;
+    margin: auto;
+}
+.day {
+    background: white;
+    padding: 15px;
+    border-radius: 12px;
+    text-align: center;
+    font-weight: bold;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+}
+.day.haid {
+    background-color: #ff99bb;
+    color: white;
+}
+.day.prediksi {
+    background-color: #b3e6ff;
+    color: #004466;
+}
+.note {
+    text-align: center;
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 10px;
+    background: #fff0f5;
+    border-left: 5px solid #ff99bb;
+    border-radius: 8px;
+    color: #555;
+}
