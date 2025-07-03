@@ -1,38 +1,39 @@
 <!DOCTYPE html>
 <html lang="id">
-    <head>
-        <meta charset="UTF-8" />
-        <title>Admin - Data Haid Siswa</title>
-        <link rel="stylesheet" href="style.css" />
-    </head>
-    <body>
-        <h1>👩‍🏫 Data Haid Siswa</h1>
-        <div class="note">
-            Halaman ini hanya untuk guru. Berikut data siswa yang pernah
-            menandai haid:
-        </div>
+<head>
+  <meta charset="UTF-8">
+  <title>Admin - Data Haid Siswa</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>👩‍🏫 Laporan Data Haid Siswa</h1>
+  <div class="note">
+    Berikut adalah data siswa yang menandai jadwal haid:
+  </div>
 
-        <div style="max-width: 600px; margin: auto">
-            <ul id="list-siswa"></ul>
-        </div>
+  <div style="max-width: 600px; margin: auto;">
+    <ul id="list-siswa"></ul>
+  </div>
 
-        <script>
-            const dataAdmin = JSON.parse(
-                localStorage.getItem("dataAdmin") || "{}"
-            );
-            const list = document.getElementById("list-siswa");
+  <script>
+    // Cek login
+    if (localStorage.getItem("admin_login") !== "true") {
+      window.location.href = "login.html";
+    }
 
-            if (Object.keys(dataAdmin).length === 0) {
-                list.innerHTML = "<li>Belum ada data siswa yang tercatat.</li>";
-            } else {
-                for (let nama in dataAdmin) {
-                    let item = document.createElement("li");
-                    item.innerHTML = `<b>${nama}</b>: ${dataAdmin[nama].join(
-                        ", "
-                    )}`;
-                    list.appendChild(item);
-                }
-            }
-        </script>
-    </body>
+    // Tampilkan data
+    const dataAdmin = JSON.parse(localStorage.getItem("dataAdmin") || "{}");
+    const list = document.getElementById("list-siswa");
+
+    if (Object.keys(dataAdmin).length === 0) {
+      list.innerHTML = "<li>Belum ada data siswa yang tercatat.</li>";
+    } else {
+      for (let nama in dataAdmin) {
+        let item = document.createElement("li");
+        item.innerHTML = `<b>${nama}</b>: ${dataAdmin[nama].join(", ")}`;
+        list.appendChild(item);
+      }
+    }
+  </script>
+</body>
 </html>
