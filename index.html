@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Jadwal Haid Siswa</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <img src="logo.png" alt="Logo Sekolah" class="logo" />
+    <h1>Jadwal Haid Siswa</h1>
+  </header>
+
+  <div class="nav">
+    <button onclick="ubahBulan(-1)">← Sebelumnya</button>
+    <span id="bulan"></span>
+    <button onclick="ubahBulan(1)">Berikutnya →</button>
+  </div>
+
+  <div class="calendar" id="kalender"></div>
+
+  <div class="note">
+    Klik tanggal untuk menandai haid.<br>
+    Warna <b>merah muda</b> = haid, <b>biru</b> = prediksi.
+  </div>
+
+  <script>
+    const kalenderEl = document.getElementById("kalender");
+    const bulanEl = document.getElementById("bulan");
+    let tanggalHaid = JSON.parse(localStorage.getItem("haid")) || [];
+    let currentMonth = new Date();
+
+    function formatDate(date) {
+      return date.toISOString().split("T")[0];
+    }
+
+    function buatKalender(bulan) {
+      kalenderEl.innerHTML = "";
+      bulanEl.innerText = bulan.toLocaleDateString('id-ID', { month: 'long', year: 'numeric' });
+
+      const awalBulan = new Date(bulan.getFullYear(), bulan.getMonth(), 1);
+      const jumlahHari = new Date(bulan.getFullYear(), bulan.getMonth() + 1, 0).getDate();
+      const hariAwal = awalBulan.getDay();
+
+      for (let i = 0; i < hariAwal; i++) {
+        kalenderEl.appendChild(document.createElement("div"));
+      }
+
+      for (let i = 1; i <= jumlahHari; i++) {
+        const tgl = new Date(bulan.getFullYear(), bulan.getMonth(), i);
+        const key = formatDate(tgl);
+
+        const hari = document.createElement("div");
+        hari.className = "day";
+        hari.innerText = i;
+
+        if (tanggalHaid.includes(key)) {
+          hari.classList.add("haid");
+        }
+
+        // prediksi
+        if (tanggalHaid.length >= 2) {
+          const diff = (new Date(tanggalHaid[1]) - new Date(tanggalHaid[0])) / (1000 * 60 * 60 * 24);
+          const prediksi = new Date(tanggalHaid[tanggalHaid.length - 1]);
+          prediksi.setDate(prediksi.getDate() + diff);
+          if (key === formatDate(prediksi)) {
+            hari.classList.add("prediksi");
+          }
+        }
+
+        hari.onclick = () => {
+          if (!tanggalHaid.includes(key)) {
+            tanggalHaid.push(key);
+            localStorage.setItem("haid", JSON.stringify(tanggalHaid));
+            hari.classList.add("haid");
+
+            // Simpan nama user (opsional)
+            let nama = localStorage.getItem("nama") || prompt("Masukkan nama lengkap:");
+            localStorage.setItem("nama", nama);
+            let dataAdmin = JSON.parse(localStorage.getItem("dataAdmin") || "{}");
+            if (!dataAdmin[nama]) dataAdmin[nama] = [];
+            dataAdmin[nama].push(key);
+            localStorage.setItem("dataAdmin", JSON.stringify(dataAdmin));
+          }
+        };
+
+        kalenderEl.appendChild(hari);
+      }
+    }
+
+    function ubahBulan(offset) {
+      currentMonth.setMonth(currentMonth.getMonth() + offset);
+      buatKalender(currentMonth);
+    }
+
+    buatKalender(currentMonth);
+  </script>
+</body>
+</html>
